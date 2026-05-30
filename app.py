@@ -86,7 +86,6 @@ if "Puntuación_Final" in df_display.columns:
         "Equipo": "Equipo",
         "Edad": "Edad",
         "Pos_Normalizada": "Posición",
-        "Puntuación_Final": "Puntuación",
     }
     cols_ok = [c for c in cols_mostrar if c in df_ranked.columns]
     st.dataframe(
@@ -125,10 +124,10 @@ with tab1:
         ficha = sr.get_ficha_jugador(df, jugador_ficha)
         if ficha:
             c1, c2, c3, c4 = st.columns(4)
+            c1, c2, c3 = st.columns(3)
             c1.metric("Equipo", ficha["Equipo"])
             c2.metric("Liga", ficha["Liga"])
             c3.metric("Edad", ficha["Edad"])
-            c4.metric("Puntuación Global", f"{ficha['Puntuación']} / 100")
 
             st.subheader("⭐ Principales virtudes")
             cv1, cv2, cv3 = st.columns(3)

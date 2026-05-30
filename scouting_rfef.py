@@ -230,7 +230,6 @@ def get_ficha_jugador(df, nombre):
             "Equipo": fila["Equipo"],
             "Liga": fila["Liga"],
             "Edad": int(fila["Edad"]),
-            "Puntuación": round(fila["Puntuación_Final"], 1),
             "Top Virtudes": top_3,
         }
     except Exception:
