@@ -134,13 +134,22 @@ def rankings(df):
     }
 
     _GK = {
-        "defensivas": ["Goles evitados/90", "Salidas/90"],
-        "ofensivas": ["Pases progresivos/90", "Pases largos/90"],
+        "defensivas": [
+            "Interceptaciones/90",
+            "Duelos aéreos en los 90",
+            "Acciones defensivas realizadas/90",
+        ],
+        "ofensivas": [
+            "Pases progresivos/90",
+            "Pases largos/90",
+        ],
         "pilares": {
-            "Bajo Palos":         ["Goles evitados/90"],
-            "Salidas":            ["Salidas/90_PAdj"],
-            "Pases Largos":       ["Pases largos/90_OPAdj", "Precisión pases largos, %"],
-            "Pases Progresivos":  ["Pases progresivos/90_OPAdj", "Precisión pases progresivos, %"],
+            "Pases Largos":        ["Pases largos/90_OPAdj", "Precisión pases largos, %"],
+            "Pases Progresivos":   ["Pases progresivos/90_OPAdj", "Precisión pases progresivos, %"],
+            "Precisión de Pase":   ["Precisión pases, %"],
+            "Duelos Aéreos":       ["Duelos aéreos en los 90_PAdj", "Duelos aéreos ganados, %"],
+            "Acciones Defensivas": ["Acciones defensivas realizadas/90_PAdj"],
+            "Interceptaciones":    ["Interceptaciones/90_PAdj"],
         },
     }
 
