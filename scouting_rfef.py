@@ -11,10 +11,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ──────────────────────────────────────────────────────────────────────────────
 # 1. CARGA DE DATOS
 # ──────────────────────────────────────────────────────────────────────────────
+_DIR = os.path.dirname(os.path.abspath(__file__))
+
 ARCHIVOS_RFEF = [
-    r"C:\Users\juanf\OneDrive\Documentos\DATA\NEW\ATT SPAIN 3 2526.xlsx",
-    r"C:\Users\juanf\OneDrive\Documentos\DATA\NEW\DEF SPAIN 3 2526.xlsx",
-    r"C:\Users\juanf\OneDrive\Documentos\DATA\NEW\MID SPAIN 3 2526.xlsx",
+    os.path.join(_DIR, "data", "ATT SPAIN 3 2526.xlsx"),
+    os.path.join(_DIR, "data", "DEF SPAIN 3 2526.xlsx"),
+    os.path.join(_DIR, "data", "MID SPAIN 3 2526.xlsx"),
 ]
 
 POSESION_RFEF_JSON = [
