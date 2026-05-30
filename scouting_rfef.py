@@ -63,6 +63,9 @@ POSESION_RFEF_JSON = [
 POSESION_MAP = {entry["team"]["name"]: entry["statistics"]["averageBallPossession"]
                 for entry in POSESION_RFEF_JSON}
 
+# Aliases para nombres alternativos en los ficheros de Wyscout
+POSESION_MAP["Athletic Bilbao"] = 51.6  # = Athletic Club B U21
+
 
 def cargar_datos():
     """Carga y concatena los tres archivos de la Primera RFEF."""
@@ -81,9 +84,10 @@ def cargar_datos():
 
     df_total = pd.concat(dfs, ignore_index=True)
 
-    # Aplicar posesión por equipo (valor de posesión media del equipo)
-    df_total["team_possession"] = df_total["Equipo"].map(POSESION_MAP)
-    # Para equipos sin dato de posesión, usamos la media de la liga (50%)
+    # Usar "Equipo durante el período seleccionado" para el lookup de posesión
+    col_durante = next((c for c in df_total.columns if "urante" in c), None)
+    col_lookup = col_durante if col_durante else "Equipo"
+    df_total["team_possession"] = df_total[col_lookup].map(POSESION_MAP)
     df_total["team_possession"] = df_total["team_possession"].fillna(50.0)
 
     return df_total
