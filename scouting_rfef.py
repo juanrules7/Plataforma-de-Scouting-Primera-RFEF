@@ -133,31 +133,10 @@ def rankings(df):
         },
     }
 
-    _GK = {
-        "defensivas": [
-            "Interceptaciones/90",
-            "Duelos aéreos en los 90",
-            "Acciones defensivas realizadas/90",
-        ],
-        "ofensivas": [
-            "Pases progresivos/90",
-            "Pases largos/90",
-        ],
-        "pilares": {
-            "Pases Largos":        ["Pases largos/90_OPAdj", "Precisión pases largos, %"],
-            "Pases Progresivos":   ["Pases progresivos/90_OPAdj", "Precisión pases progresivos, %"],
-            "Precisión de Pase":   ["Precisión pases, %"],
-            "Duelos Aéreos":       ["Duelos aéreos en los 90_PAdj", "Duelos aéreos ganados, %"],
-            "Acciones Defensivas": ["Acciones defensivas realizadas/90_PAdj"],
-            "Interceptaciones":    ["Interceptaciones/90_PAdj"],
-        },
-    }
-
     config_posiciones = {
         "CB": _SHARED, "RB": _SHARED, "LB": _SHARED,
         "DMF": _SHARED, "CMF": _SHARED, "AMF": _SHARED,
         "LW": _SHARED, "RW": _SHARED, "CF": _SHARED,
-        "GK": _GK,
     }
 
     df = df.copy()
