@@ -86,6 +86,12 @@ def cargar_datos():
 
     df_total = pd.concat(dfs, ignore_index=True)
 
+    # Eliminar duplicados (un jugador puede aparecer en varios ficheros)
+    df_total = df_total.drop_duplicates(subset=["Jugador", "Equipo"])
+
+    # Edad como entero
+    df_total["Edad"] = pd.to_numeric(df_total["Edad"], errors="coerce").astype("Int64")
+
     # Usar "Equipo durante el período seleccionado" para el lookup de posesión
     col_durante = next((c for c in df_total.columns if "urante" in c), None)
     col_lookup = col_durante if col_durante else "Equipo"
@@ -159,6 +165,12 @@ def rankings(df):
     if "Posición específica" not in df.columns:
         return df
 
+    POSICIONES_ES = {
+        "CB": "DFC", "RB": "LD", "LB": "LI",
+        "DMF": "MCD", "CMF": "MC", "AMF": "MCO",
+        "LW": "EI", "RW": "ED", "CF": "DC",
+    }
+
     df["Posición específica"] = df["Posición específica"].str.strip()
     df["Posición_Principal"] = df["Posición específica"].str.split(",").str[0].str.strip()
     df["Pos_Normalizada"] = df["Posición_Principal"].map(mapeo_grupos).fillna(df["Posición_Principal"])
@@ -202,7 +214,9 @@ def rankings(df):
             df_pos2["Puntuación_Final"] = df_pos2[rating_cols].mean(axis=1)
             all_results.append(df_pos2)
 
-    return pd.concat(all_results, ignore_index=True) if all_results else df
+    df_final = pd.concat(all_results, ignore_index=True) if all_results else df
+    df_final["Pos_Normalizada"] = df_final["Pos_Normalizada"].map(POSICIONES_ES).fillna(df_final["Pos_Normalizada"])
+    return df_final
 
 
 # ──────────────────────────────────────────────────────────────────────────────
