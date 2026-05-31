@@ -3,6 +3,8 @@ import scouting_rfef as sr
 import pandas as pd
 import io
 
+VERSION = "v1.4"
+
 st.set_page_config(
     page_title="Scouting | Primera RFEF",
     layout="wide",
@@ -10,22 +12,25 @@ st.set_page_config(
 )
 
 # ──────────────────────────────────────────────────────────────────────────────
-# CARGA DE DATOS (con caché en session_state)
+# CARGA DE DATOS (con st.cache_data para evitar recargas innecesarias)
 # ──────────────────────────────────────────────────────────────────────────────
-if "df" not in st.session_state:
-    with st.spinner("Cargando datos y calculando rankings..."):
-        df_raw = sr.cargar_datos()
-        if df_raw.empty:
-            st.error("❌ No se encontraron los archivos de datos. Comprueba las rutas en scouting_rfef.py.")
-            st.stop()
-        st.session_state.df = sr.rankings(df_raw)
+@st.cache_data(show_spinner="Cargando datos y calculando rankings...")
+def cargar_df():
+    df_raw = sr.cargar_datos()
+    if df_raw.empty:
+        return pd.DataFrame()
+    return sr.rankings(df_raw)
 
-df = st.session_state.df
+df = cargar_df()
+
+if df.empty:
+    st.error("❌ No se encontraron los archivos de datos. Comprueba las rutas en scouting_rfef.py.")
+    st.stop()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # CABECERA
 # ──────────────────────────────────────────────────────────────────────────────
-st.title("⚽ Plataforma de Scouting — Primera RFEF 25/26")
+st.title(f"⚽ Plataforma de Scouting — Primera RFEF 25/26  {VERSION}")
 st.markdown("---")
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -63,8 +68,7 @@ st.markdown("---")
 st.sidebar.header("🔍 Filtros Globales")
 
 if st.sidebar.button("🔄 Limpiar Caché y Recargar"):
-    if "df" in st.session_state:
-        del st.session_state["df"]
+    st.cache_data.clear()
     st.rerun()
 
 posiciones_disponibles = sorted(df["Pos_Normalizada"].unique()) if "Pos_Normalizada" in df.columns else []
